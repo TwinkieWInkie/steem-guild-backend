@@ -1,0 +1,34 @@
+extends ../layouts/default
+
+block content
+	link(rel="stylesheet", href="/styles/login.css")
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	.container: .jumbotron
+		.text-center(style="padding:50px 0")
+			.logo EarthNation Steem Guild	
+			// Main Form
+			.login-form-1
+				form#login-form.text-left
+					.login-form-main-message
+					.main-login-form
+						.login-group
+							.form-group
+								label.sr-only(for="lg_username") Username
+								input#lg_username.form-control(type="text", name="lg_username", placeholder="username without @")
+							.form-group
+								label.sr-only(for="lg_password") Password
+								input#lg_password.form-control(type="password", name="lg_password", placeholder="private posting WIF")
+							.form-group.login-group-checkbox
+								
+						button.login-button(type="button" onclick="submitSteem();")
+							i.fa.fa-chevron-right
+			br
+			br
+			br
+			p This is the final step of commitment towards joining the EarthNation Steem Guild, this will automate the required upvotes, resteems and comments.
+			br
+			p Login with a valid Steem account
+			// end:Main Form
+
+		
