@@ -1,16 +1,13 @@
 const keystone = require('keystone')
-const ObjectId = require('mongodb').ObjectID
 const Post = keystone.list('Post').model
 const sortBy = require('array-sort-by')
 
-exports = module.exports = function (app) {
+exports = module.exports = function () {
 
 	class steemBot {
 		constructor() {
-			this.posts = []
 			this.groups = []
 
-			this.postQuery = keystone.list('Post').model.where('username').ne('all-users')
 			this.groupQuery = keystone.list('Group').model.find()
 
 			setInterval(() => {
@@ -29,28 +26,31 @@ exports = module.exports = function (app) {
 		}
 
 		syncGroup(group) {
+			// Get current groups posts from Steem
 			global.steem.api.getAccountVotes(group.username, (err, posts) => {
 				if (err || typeof posts == 'undefined')
 					return console.log(err); 
-
-                const length = posts.length - 1
+				
+				const length = posts.length - 1 
+				
                 posts = sortBy(posts, (s) => -new Date(s.time) ).reverse()
+				// Sort all posts by dateTime of creation
+				
 				if (group.currentId == 0)  {
-                    console.log('resetting currentId')
 					return this.setCurrentLength(group, length)
+					// If group is newly added
                 }
 
 				if (group.currentId < length) {
-                    console.log('found new post(s)')
+					// New post(s) found
                     const group2 = { _id: group._id, username: group.username, currentId: group.currentId }
                     this.setCurrentLength(group, length)
-for (var b = posts.length - 5; b <= length; b++) {console.log(posts[b])}
+					// Update currentLength to prevent re-adding posts
+
                     for (var i = group.currentId; i <= length; i++) {
-                        console.log('looping '+ i)
+                    	// Looping through new posts
                         this.createPost(posts[i], group2._id)
                     }
-
-                    console.log('Syncing ' + (posts.length - group.currentId) + ' new posts from: ' + group.username)
                 }
 			})
 			
@@ -66,6 +66,8 @@ for (var b = posts.length - 5; b <= length; b++) {console.log(posts[b])}
 		createPost(post, groupId) {
         
 			const split = post.authorperm.split('/')
+			// Splitting up author and permlink
+			
 			var postDoc = new Post({
                 author: split[0],
                 permlink: split[1],
