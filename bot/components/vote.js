@@ -40,7 +40,8 @@ module.exports = class {
 				user.wif,
 				global.steem.auth.toWif(user.username, user.wif, 'posting')	
 			]
-			
+			// We're trying both the Wif and password due to users sometimes entering their password
+			// Haven't found a proper way for steem-key validation
 			forEach(keys, (key) => {
 				if (this.post.downvote)
 					downvote(user.username, key, this.post)
