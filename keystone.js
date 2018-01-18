@@ -3,8 +3,8 @@
 require('dotenv').config();
 
 // Require keystone
-var keystone = require('keystone');
-
+const keystone = require('keystone');
+const steem = require('steem')
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
@@ -25,6 +25,10 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 });
+steem.api.setOptions({ url: 'https://api.steemit.com' })
+
+// Add steem api to globals
+global.steem = steem
 
 // Load your project's Models
 keystone.import('models');
@@ -39,15 +43,13 @@ keystone.set('locals', {
 	editable: keystone.content.editable,
 });
 
-const steem = require('steem')
-steem.api.setOptions({ url: 'https://api.steemit.com' })
-global.steem = steem
+
 
 
 // Load your project's Routes
 keystone.set('routes', require('./routes'));
 
-require('./bot')()
+
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
@@ -55,9 +57,13 @@ keystone.set('nav', {
 	settings: ['groups']
 });
 
-// Start Keystone to connect to your database and initialise the web server
-
+// Add actions to globals
 global.vote = require('./bot/components/vote')
 global.resteem = require('./bot/components/actions/resteem')
 
+
+// Start Keystone to connect to your database and initialise the web server
 keystone.start();
+
+// Initialize bot tasks
+require('./bot')()
