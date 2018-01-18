@@ -12,7 +12,7 @@ var post = new keystone.List('Post', {
 
 post.add({
     author: { initial: true, type: String },
-    permlink: { initial: true, type: String, unique: true, index: true },
+    permlink: { initial: true, type: String, index: true },
 	group: { type: Types.Relationship, ref: 'Group', many: false },
 	downvote: { type: Boolean, initial: true },
 	done: { type: Boolean, default: false, index: true },
