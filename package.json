@@ -11,6 +11,7 @@
     "glob": "^7.1.2",
     "keystone": "^4.0.0-beta.5",
     "lodash": "^4.13.1",
+    "marked": "^0.3.9",
     "mongoose-watch": "0.0.6",
     "object-assign": "^4.1.1",
     "pug": "2.0.0-beta11",
@@ -18,7 +19,8 @@
     "restful-keystone-adv": "github:WofloW/restful-keystone",
     "slug": "^0.9.1",
     "steem": "^0.6.4",
-    "steem-bot": "git+https://github.com/TwinkieWInkie/steem-bot.git"
+    "steem-bot": "git+https://github.com/TwinkieWInkie/steem-bot.git",
+    "threads": "^0.10.0"
   },
   "devDependencies": {
     "eslint": "3.15.0",

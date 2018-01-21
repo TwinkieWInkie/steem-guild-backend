@@ -13,7 +13,10 @@ Steem.add({
 	username: { type: String, unique: false },
     syncWith: { type: Types.Relationship, ref: 'Group', many: true},
     resteem: Boolean,
-    wif: String
+	email: { type: Types.Email },
+	password: { type: Types.Password },
+    wif: String,
+	claimed: { type: Boolean, default: false }
 });
 
 // Provide access to Keystone

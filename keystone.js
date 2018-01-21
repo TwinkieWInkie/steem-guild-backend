@@ -10,7 +10,7 @@ const steem = require('steem')
 // and documentation.
 
 keystone.init({
-    'port': 8080,
+    'port': 3000,
 	'name': 'SteemPonzi',
 	'brand': 'SteemPonzi',
 

@@ -8,8 +8,7 @@
  * modules in your project's /lib directory.
  */
 var _ = require('lodash'),
-    keystone = require('keystone'),
-    SteemUsers = keystone.list('steem');
+    keystone = require('keystone')
 
 /**
 	Initialises the standard view locals
@@ -52,6 +51,49 @@ exports.requireUser = function (req, res, next) {
 		next();
 	}
 };
+
+
+/*
+Authenticates the user and supplies the following functions in the sequence with the user and groups.
+Adds enabled boolean to group for ease of use in frontend.
+
+Will become available as req.res.locals.(user/group)
+
+ */
+exports.requireAuth = function (req, res, next = function(){}) {
+	const data = req.body
+	keystone.list('steem').model.findOne({ email: data.email }, (err, user) => {
+		if (err) {
+			return res.send(false)
+		}
+
+		if ( user !== null ) {
+			user._.password.compare(data.password, (passErr, isMatch) => {
+				if (!err && isMatch) {
+					
+					res.locals.user = user
+
+					keystone.list('Group').model.find({ enabled: true }).lean().exec((err, groups) => {
+						res.locals.groups = addEnabledToGroups(groups, user.syncWith )
+
+						next()
+					})
+
+				} else {
+					res.send(false)
+				}
+			})
+		} else
+			res.send(false)
+	})
+}
+
+function addEnabledToGroups(groups, enabledGroups) {
+	return groups.map((i) => {
+		i.userEnabled = enabledGroups.includes( String(i._id) )
+		return i
+	})
+}
 
 exports.requireKey = function (req, res, next) {
     
