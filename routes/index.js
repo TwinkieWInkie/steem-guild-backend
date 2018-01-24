@@ -60,14 +60,13 @@ exports = module.exports = function (app) {
 		})
 	})
 
-	app.post('/api/changeKey', middleware.requireAuth, (req, res) => {
+	app.post('/api/changeResteem', middleware.requireAuth, (req, res, next) => {
 		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, doc) => {
 			user.resteem = req.body.changeTo
 
 			user.save()
-			res.send('true')
 		})
-	})
+	}, respondWithLocals)
 	
 	app.post('/api/claim', (req, res) => {
 		const data = req.body
