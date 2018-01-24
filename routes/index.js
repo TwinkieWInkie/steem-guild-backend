@@ -38,12 +38,10 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function (app) {
 	// Views
-	app.get('/', routes.views.index);
-
 	app.post('/api/login', middleware.requireAuth, respondWithLocals)
 	
 	app.post('/api/changePassword', middleware.requireAuth, (req, res) => {
-		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, doc) => {
+		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, user) => {
 			user.password = req.body.changeTo
 			
 			user.save()
@@ -52,7 +50,7 @@ exports = module.exports = function (app) {
 	})
 
 	app.post('/api/changeKey', middleware.requireAuth, (req, res) => {
-		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, doc) => {
+		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, user) => {
 			user.wif = req.body.changeTo
 			
 			user.save()
@@ -60,13 +58,15 @@ exports = module.exports = function (app) {
 		})
 	})
 
-	app.post('/api/changeResteem', middleware.requireAuth, (req, res, next) => {
-		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, doc) => {
-			user.resteem = req.body.changeTo
+	app.post('/api/changeResteem', middleware.requireAuth, (req, res) => {
+		console.log('resteem')
+		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, user) => {
+			user.resteem = req.body.resteem
 
 			user.save()
+			res.send(user.resteem)
 		})
-	}, respondWithLocals)
+	})
 	
 	app.post('/api/claim', (req, res) => {
 		const data = req.body
