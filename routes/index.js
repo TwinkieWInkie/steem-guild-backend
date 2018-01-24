@@ -47,6 +47,7 @@ exports = module.exports = function (app) {
 			user.password = req.body.changeTo
 			
 			user.save()
+			res.send('true')
 		})
 	})
 
@@ -55,6 +56,16 @@ exports = module.exports = function (app) {
 			user.wif = req.body.changeTo
 			
 			user.save()
+			res.send('true')
+		})
+	})
+
+	app.post('/api/changeKey', middleware.requireAuth, (req, res) => {
+		keystone.list('steem').model.findOne({ _id: req.res.locals.user._id }).exec( (err, doc) => {
+			user.resteem = req.body.changeTo
+
+			user.save()
+			res.send('true')
 		})
 	})
 	
