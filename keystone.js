@@ -27,6 +27,22 @@ keystone.init({
 });
 steem.api.setOptions({ url: 'https://api.steemit.com' })
 
+
+const pm2 = require('pm2')
+
+pm2.connect((err) => {
+	if (err){
+		console.log(err)
+		process.exit(2)
+	}
+
+	pm2.start({
+		script: './transferBot/index.js'
+	}, function (err, apps) {
+		if (err)
+			console.log(err)
+	})
+})
 // Add steem api to globals
 global.steem = steem
 
@@ -54,13 +70,13 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
 	users: ['users', 'steems'],
-	settings: ['groups']
+	settings: ['groups'],
+	bot: ['BotSettings', 'BotCustomers', 'BotPosts']
 });
 
 // Add actions to globals
 global.vote = require('./bot/components/vote')
 global.resteem = require('./bot/components/actions/resteem')
-
 
 // Start Keystone to connect to your database and initialise the web server
 keystone.start();

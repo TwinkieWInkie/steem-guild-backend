@@ -1,3 +1,6 @@
 [submodule "models"]
 	path = models
 	url = https://github.com/TwinkieWInkie/models.git
+[submodule "transferBot"]
+	path = transferBot
+	url = https://github.com/TwinkieWInkie/Advanced-Steem-Upvote-Bot.git
