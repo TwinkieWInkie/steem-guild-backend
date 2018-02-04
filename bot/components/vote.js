@@ -15,23 +15,17 @@ module.exports = class {
 			this.groupId = post.group
 			this.post = post
 			
-			this.getQuery()
 			this.execQuery()
 		})
 	}
 	
-	getQuery () {
-		if (this.group.default)
-			this.query = {}
-		else
-			this.query = { syncWith: this.groupId }
-	}
-	
 	execQuery () {
-		Users.find(this.query, (err, users) => {
-			
-			this.execVote(users)
-		})
+		Users.find(
+			this.group.default 
+				? { activated: true } 
+				: { syncWith: this.groupId, activated: true }, 
+			(err, users) => this.execVote(users)
+		)
 	}
 	
 	execVote (users) {
