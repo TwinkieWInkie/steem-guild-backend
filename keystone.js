@@ -71,7 +71,7 @@ keystone.set('routes', require('./routes'));
 keystone.set('nav', {
 	users: ['users', 'steems'],
 	settings: ['groups'],
-	bot: ['BotSettings', 'BotCustomers', 'BotPosts']
+	bot: ['BotSettings', 'BotCustomers', 'BotPosts', 'BotLists]
 });
 
 // Add actions to globals
