@@ -24,9 +24,10 @@
     "pug": "2.0.0-beta11",
     "restful-keystone": "^0.3.0",
     "restful-keystone-adv": "github:WofloW/restful-keystone",
+    "scraperjs": "^1.2.0",
     "slug": "^0.9.1",
     "steem": "^0.6.7",
-    "steem-bot": "git+https://github.com/TwinkieWInkie/steem-bot.git",
+    "steem-bot": "git+https://github.com/TwinkieWInkie/steem-bot.git#dev",
     "threads": "^0.10.0"
   },
   "devDependencies": {
